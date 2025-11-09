@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulários Enviados - Mael Lanchonete</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0e;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      background: #b6b2ae;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #555;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #b6b2ae;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Formulários Enviados</h1>
+  <div class="container">
+    <table id="tabelaDados">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Manhã</th>
+          <th>Tarde</th>
+          <th>Noite</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // 🔥 Cole aqui seu firebaseConfig
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQTn-zSwVyNQpx_ZNvR_OWqNQvmrEOoZ8",
+      authDomain: "mael-lanchonete.firebaseapp.com",
+      projectId: "mael-lanchonete",
+      storageBucket: "mael-lanchonete.firebasestorage.app",
+      messagingSenderId: "552160778575",
+      appId: "1:552160778575:web:45ebaad063dacb3728cd3a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const tabela = document.getElementById('tabelaDados').querySelector('tbody');
+
+    async function carregarDados() {
+      tabela.innerHTML = '';
+      const q = query(collection(db, "formularios"), orderBy("timestamp", "desc"));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        tabela.innerHTML = `<tr><td colspan="4">Nenhum formulário enviado ainda.</td></tr>`;
+        return;
+      }
+
+      querySnapshot.forEach(doc => {
+        const dados = doc.data();
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+          <td>${dados.data}</td>
+          <td>
+            Dinheiro: R$ ${dados.manha.dinheiro.toFixed(2)}<br>
+            Pix: R$ ${dados.manha.pix.toFixed(2)}<br>
+            Compras: R$ ${dados.manha.compras.toFixed(2)}
+          </td>
+          <td>
+            Dinheiro: R$ ${dados.tarde.dinheiro.toFixed(2)}<br>
+            Pix: R$ ${dados.tarde.pix.toFixed(2)}<br>
+            Compras: R$ ${dados.tarde.compras.toFixed(2)}
+          </td>
+          <td>
+            Dinheiro: R$ ${dados.noite.dinheiro.toFixed(2)}<br>
+            Pix: R$ ${dados.noite.pix.toFixed(2)}<br>
+            Compras: R$ ${dados.noite.compras.toFixed(2)}
+          </td>
+        `;
+        tabela.appendChild(linha);
+      });
+    }
+
+    carregarDados();
+  </script>
+</body>
+</html>

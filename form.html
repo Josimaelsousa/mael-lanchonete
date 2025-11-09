@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mael Lanchonete</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f0f0e; margin: 0; padding: 0; }
+    h1 { text-align: center; background: #b6b2ae; color: white; padding: 15px; margin: 0; }
+    form { max-width: 450px; margin: 30px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    fieldset { margin-top: 15px; border: 2px solid #080808; border-radius: 8px; padding: 15px; }
+    legend { font-weight: bold; color: #030303; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+    button { width: 100%; margin-top: 20px; padding: 12px; background: #f01a12; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    button:hover { background: #e07000; }
+  </style>
+</head>
+<body>
+  <h1>Mael Lanchonete</h1>
+
+  <form id="lanchoneteForm">
+    <label for="data">Data:</label>
+    <input type="date" id="data" required>
+
+    <fieldset>
+      <legend>Turno da Manhã</legend>
+      <label>Venda em Dinheiro (R$):</label>
+      <input type="number" id="manha_dinheiro" step="0.01">
+      <label>Venda em Pix (R$):</label>
+      <input type="number" id="manha_pix" step="0.01">
+      <label>Compras (R$):</label>
+      <input type="number" id="manha_compras" step="0.01">
+    </fieldset>
+
+    <fieldset>
+      <legend>Turno da Tarde</legend>
+      <label>Venda em Dinheiro (R$):</label>
+      <input type="number" id="tarde_dinheiro" step="0.01">
+      <label>Venda em Pix (R$):</label>
+      <input type="number" id="tarde_pix" step="0.01">
+      <label>Compras (R$):</label>
+      <input type="number" id="tarde_compras" step="0.01">
+    </fieldset>
+
+    <fieldset>
+      <legend>Turno da Noite</legend>
+      <label>Venda em Dinheiro (R$):</label>
+      <input type="number" id="noite_dinheiro" step="0.01">
+      <label>Venda em Pix (R$):</label>
+      <input type="number" id="noite_pix" step="0.01">
+      <label>Compras (R$):</label>
+      <input type="number" id="noite_compras" step="0.01">
+    </fieldset>
+
+    <button type="submit">Salvar no Firebase</button>
+  </form>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // 🔥 SEU firebaseConfig
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQTn-zSwVyNQpx_ZNvR_OWqNQvmrEOoZ8",
+      authDomain: "mael-lanchonete.firebaseapp.com",
+      projectId: "mael-lanchonete",
+      storageBucket: "mael-lanchonete.firebasestorage.app",
+      messagingSenderId: "552160778575",
+      appId: "1:552160778575:web:45ebaad063dacb3728cd3a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById('lanchoneteForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const dados = {
+        data: document.getElementById('data').value,
+        manha: {
+          dinheiro: parseFloat(document.getElementById('manha_dinheiro').value) || 0,
+          pix: parseFloat(document.getElementById('manha_pix').value) || 0,
+          compras: parseFloat(document.getElementById('manha_compras').value) || 0
+        },
+        tarde: {
+          dinheiro: parseFloat(document.getElementById('tarde_dinheiro').value) || 0,
+          pix: parseFloat(document.getElementById('tarde_pix').value) || 0,
+          compras: parseFloat(document.getElementById('tarde_compras').value) || 0
+        },
+        noite: {
+          dinheiro: parseFloat(document.getElementById('noite_dinheiro').value) || 0,
+          pix: parseFloat(document.getElementById('noite_pix').value) || 0,
+          compras: parseFloat(document.getElementById('noite_compras').value) || 0
+        },
+        timestamp: new Date()
+      };
+
+      try {
+        await addDoc(collection(db, "formularios"), dados);
+        alert("✅ Dados salvos no Firebase com sucesso!");
+        form.reset();
+      } catch (erro) {
+        console.error("Erro ao salvar:", erro);
+        alert("❌ Erro ao salvar no Firebase");
+      }
+    });
+  </script>
+</body>
+</html>
