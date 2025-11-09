@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Mael Lanchonete</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      background: #b6b2ae;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
+    }
+
+    h1 {
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #f01a12;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff0202;
+    }
+
+    .error {
+      color: #ffeb3b;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h1>Login</h1>
+    <input type="password" id="senha" placeholder="Digite a senha">
+    <button onclick="logar()">Entrar</button>
+    <div class="error" id="erro"></div>
+  </div>
+
+  <script>
+    const senhaCorreta = "mael1234"; // Coloque aqui a senha que quiser
+
+    function logar() {
+      const senha = document.getElementById('senha').value;
+      const erro = document.getElementById('erro');
+
+      if (senha === senhaCorreta) {
+        // Redireciona para o formulário
+        window.location.href = "form.html";
+      } else {
+        erro.textContent = "Senha incorreta! Tente novamente.";
+      }
+    }
+  </script>
+</body>
+</html>
