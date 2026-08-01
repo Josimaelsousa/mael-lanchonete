@@ -72,7 +72,6 @@ button {
 
 <h1>Mael Lanchonete</h1>
 
-
 <form id="lanchoneteForm">
 
 <label>Data:</label>
@@ -128,7 +127,6 @@ button {
 Salvar no Banco de Dados
 </button>
 
-
 </form>
 
 
@@ -179,7 +177,6 @@ e.preventDefault();
 const valorData = document.getElementById("data").value;
 
 
-// Converte AAAA-MM-DD para DD/MM/AAAA
 let dataFormatada = "";
 
 if(valorData){
@@ -195,6 +192,10 @@ const dados = {
 
 
 data: dataFormatada,
+
+
+// identifica que veio do site
+origem: "Site",
 
 
 manha: {
