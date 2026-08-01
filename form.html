@@ -1,78 +1,71 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mael Lanchonete</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f0f0e;
-      margin: 0;
-      padding: 0;
-    }
+<title>Mael Lanchonete</title>
 
-    h1 {
-      text-align: center;
-      background: #b6b2ae;
-      color: white;
-      padding: 15px;
-      margin: 0;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0f0f0e;
+  margin: 0;
+  padding: 0;
+}
 
-    form {
-      max-width: 450px;
-      margin: 30px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+h1 {
+  text-align: center;
+  background: #b6b2ae;
+  color: white;
+  padding: 15px;
+  margin: 0;
+}
 
-    fieldset {
-      margin-top: 15px;
-      border: 2px solid #080808;
-      border-radius: 8px;
-      padding: 15px;
-    }
+form {
+  max-width: 450px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
 
-    legend {
-      font-weight: bold;
-      color: #030303;
-    }
+fieldset {
+  margin-top: 15px;
+  border: 2px solid #080808;
+  border-radius: 8px;
+  padding: 15px;
+}
 
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
+legend {
+  font-weight: bold;
+}
 
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
 
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 12px;
-      background: #f01a12;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
 
-    button:hover {
-      background: #ff0303;
-    }
-  </style>
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: #f01a12;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+</style>
 
 </head>
 
@@ -83,8 +76,10 @@
 
 <form id="lanchoneteForm">
 
-<label for="data">Data:</label>
+
+<label>Data:</label>
 <input type="date" id="data" required>
+
 
 
 <fieldset>
@@ -134,6 +129,7 @@
 </fieldset>
 
 
+
 <button type="submit">
 Salvar no Banco de Dados
 </button>
@@ -145,10 +141,17 @@ Salvar no Banco de Dados
 
 <script type="module">
 
+
 import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 
-import { getFirestore, collection, addDoc } 
+
+import { 
+getFirestore, 
+collection, 
+addDoc,
+serverTimestamp
+} 
 from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 
@@ -177,11 +180,11 @@ const db = getFirestore(app);
 
 
 
-const form = document.getElementById('lanchoneteForm');
+const form = document.getElementById("lanchoneteForm");
 
 
 
-form.addEventListener('submit', async (e)=>{
+form.addEventListener("submit", async (e)=>{
 
 
 e.preventDefault();
@@ -191,46 +194,44 @@ e.preventDefault();
 const dados = {
 
 
-data: document.getElementById('data').value,
+data: document.getElementById("data").value,
 
 
 manha: {
 
-dinheiro: parseFloat(document.getElementById('manha_dinheiro').value) || 0,
+dinheiro: Number(document.getElementById("manha_dinheiro").value) || 0,
 
-pix: parseFloat(document.getElementById('manha_pix').value) || 0,
+pix: Number(document.getElementById("manha_pix").value) || 0,
 
-compras: parseFloat(document.getElementById('manha_compras').value) || 0
+compras: Number(document.getElementById("manha_compras").value) || 0
 
 },
-
 
 
 tarde: {
 
-dinheiro: parseFloat(document.getElementById('tarde_dinheiro').value) || 0,
+dinheiro: Number(document.getElementById("tarde_dinheiro").value) || 0,
 
-pix: parseFloat(document.getElementById('tarde_pix').value) || 0,
+pix: Number(document.getElementById("tarde_pix").value) || 0,
 
-compras: parseFloat(document.getElementById('tarde_compras').value) || 0
+compras: Number(document.getElementById("tarde_compras").value) || 0
 
 },
-
 
 
 noite: {
 
-dinheiro: parseFloat(document.getElementById('noite_dinheiro').value) || 0,
+dinheiro: Number(document.getElementById("noite_dinheiro").value) || 0,
 
-pix: parseFloat(document.getElementById('noite_pix').value) || 0,
+pix: Number(document.getElementById("noite_pix").value) || 0,
 
-compras: parseFloat(document.getElementById('noite_compras').value) || 0
+compras: Number(document.getElementById("noite_compras").value) || 0
 
 },
 
 
-// Igual ao Android
-timestamp: Date.now()
+// Mesmo padrão do Firebase/Android
+timestamp: serverTimestamp()
 
 
 };
@@ -240,24 +241,25 @@ timestamp: Date.now()
 try {
 
 
-await addDoc(collection(db, "formularios"), dados);
+await addDoc(
+collection(db,"formularios"),
+dados
+);
 
 
 alert("✅ Dados salvos no Firebase com sucesso!");
-
 
 form.reset();
 
 
 
-} catch(erro) {
+}
 
+catch(erro){
 
-console.error("Erro ao salvar:", erro);
-
+console.error(erro);
 
 alert("❌ Erro ao salvar no Firebase");
-
 
 }
 
@@ -271,3 +273,4 @@ alert("❌ Erro ao salvar no Firebase");
 
 </body>
 </html>
+```
