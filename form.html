@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -76,10 +75,8 @@ button {
 
 <form id="lanchoneteForm">
 
-
 <label>Data:</label>
 <input type="date" id="data" required>
-
 
 
 <fieldset>
@@ -97,7 +94,6 @@ button {
 </fieldset>
 
 
-
 <fieldset>
 <legend>Turno da Tarde</legend>
 
@@ -111,7 +107,6 @@ button {
 <input type="number" id="tarde_compras" step="0.01">
 
 </fieldset>
-
 
 
 <fieldset>
@@ -129,7 +124,6 @@ button {
 </fieldset>
 
 
-
 <button type="submit">
 Salvar no Banco de Dados
 </button>
@@ -138,13 +132,10 @@ Salvar no Banco de Dados
 </form>
 
 
-
 <script type="module">
-
 
 import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-
 
 import { 
 getFirestore, 
@@ -153,7 +144,6 @@ addDoc,
 serverTimestamp
 } 
 from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
 
 
 const firebaseConfig = {
@@ -173,28 +163,38 @@ appId: "1:552160778575:web:45ebaad063dacb3728cd3a"
 };
 
 
-
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
 
-
 const form = document.getElementById("lanchoneteForm");
-
 
 
 form.addEventListener("submit", async (e)=>{
 
-
 e.preventDefault();
 
+
+const valorData = document.getElementById("data").value;
+
+
+// Converte AAAA-MM-DD para DD/MM/AAAA
+let dataFormatada = "";
+
+if(valorData){
+
+const partes = valorData.split("-");
+
+dataFormatada = `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
 
 
 const dados = {
 
 
-data: document.getElementById("data").value,
+data: dataFormatada,
 
 
 manha: {
@@ -230,12 +230,10 @@ compras: Number(document.getElementById("noite_compras").value) || 0
 },
 
 
-// Mesmo padrão do Firebase/Android
 timestamp: serverTimestamp()
 
 
 };
-
 
 
 try {
@@ -252,7 +250,6 @@ alert("✅ Dados salvos no Firebase com sucesso!");
 form.reset();
 
 
-
 }
 
 catch(erro){
@@ -264,7 +261,6 @@ alert("❌ Erro ao salvar no Firebase");
 }
 
 
-
 });
 
 
@@ -273,4 +269,3 @@ alert("❌ Erro ao salvar no Firebase");
 
 </body>
 </html>
-```
