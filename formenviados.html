@@ -7,13 +7,15 @@
 <title>Formulários Enviados - Mael Lanchonete</title>
 
 <style>
+
 body {
   font-family: Arial, sans-serif;
   background: #0f0f0e;
   color: white;
   margin: 0;
-  padding: 20px;
+  padding: 10px;
 }
+
 
 h1 {
   text-align: center;
@@ -21,22 +23,33 @@ h1 {
   color: white;
   padding: 15px;
   border-radius: 8px;
+  font-size: 24px;
 }
+
 
 .container {
   max-width: 900px;
-  margin: 30px auto;
+  margin: 20px auto;
   background: white;
   color: black;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
 }
 
+
+.tabela-scroll {
+  overflow-x: auto;
+  width: 100%;
+}
+
+
 table {
   width: 100%;
+  min-width: 750px;
   border-collapse: collapse;
   margin-top: 15px;
 }
+
 
 th, td {
   border: 1px solid #555;
@@ -44,21 +57,51 @@ th, td {
   text-align: center;
 }
 
+
 th {
   background: #b6b2ae;
   color: white;
 }
+
+
+@media(max-width:600px){
+
+h1 {
+  font-size: 20px;
+}
+
+
+.container {
+  padding: 5px;
+}
+
+
+th, td {
+  font-size: 14px;
+}
+
+}
+
+
 </style>
 
 </head>
 
+
 <body>
+
 
 <h1>Formulários Enviados</h1>
 
+
 <div class="container">
 
+
+<div class="tabela-scroll">
+
+
 <table id="tabelaDados">
+
 
 <thead>
 
@@ -72,14 +115,23 @@ th {
 
 </thead>
 
+
 <tbody></tbody>
 
+
 </table>
+
 
 </div>
 
 
+</div>
+
+
+
+
 <script type="module">
+
 
 import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
@@ -95,7 +147,9 @@ orderBy
 from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 
+
 const firebaseConfig = {
+
 
 apiKey: "AIzaSyBQTn-zSwVyNQpx_ZNvR_OWqNQvmrEOoZ",
 
@@ -109,7 +163,9 @@ messagingSenderId: "552160778575",
 
 appId: "1:552160778575:web:45ebaad063dacb3728cd3a"
 
+
 };
+
 
 
 const app = initializeApp(firebaseConfig);
@@ -124,8 +180,11 @@ const tabela = document
 
 
 
+
 // Corrige datas antigas e novas
+
 function formatarData(data){
+
 
     if(!data){
         return "";
@@ -149,7 +208,9 @@ function formatarData(data){
 
     return data;
 
+
 }
+
 
 
 
@@ -157,6 +218,7 @@ async function carregarDados(){
 
 
 tabela.innerHTML = "";
+
 
 
 const q = query(
@@ -172,6 +234,7 @@ const querySnapshot = await getDocs(q);
 
 if(querySnapshot.empty){
 
+
 tabela.innerHTML =
 `
 <tr>
@@ -181,7 +244,9 @@ Nenhum formulário enviado ainda.
 </tr>
 `;
 
+
 return;
+
 
 }
 
@@ -207,9 +272,11 @@ ${formatarData(dados.data)}
 </td>
 
 
+
 <td>
 ${dados.origem || "Site"}
 </td>
+
 
 
 
@@ -229,6 +296,7 @@ Compras: R$ ${dados.manha.compras.toFixed(2)}
 
 
 
+
 <td>
 
 Dinheiro: R$ ${dados.tarde.dinheiro.toFixed(2)}
@@ -242,6 +310,7 @@ Pix: R$ ${dados.tarde.pix.toFixed(2)}
 Compras: R$ ${dados.tarde.compras.toFixed(2)}
 
 </td>
+
 
 
 
@@ -275,7 +344,9 @@ tabela.appendChild(linha);
 
 
 
+
 carregarDados();
+
 
 
 </script>
