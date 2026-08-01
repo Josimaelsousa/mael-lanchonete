@@ -81,7 +81,6 @@ th {
 
 <script type="module">
 
-
 import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 
@@ -94,7 +93,6 @@ query,
 orderBy 
 } 
 from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
 
 
 const firebaseConfig = {
@@ -112,7 +110,6 @@ messagingSenderId: "552160778575",
 appId: "1:552160778575:web:45ebaad063dacb3728cd3a"
 
 };
-
 
 
 const app = initializeApp(firebaseConfig);
@@ -134,11 +131,14 @@ function formatarData(data){
         return "";
     }
 
+
     if(data.includes("/")){
         return data;
     }
 
+
     const partes = data.split("-");
+
 
     if(partes.length === 3){
 
@@ -146,10 +146,10 @@ function formatarData(data){
 
     }
 
+
     return data;
 
 }
-
 
 
 
@@ -208,8 +208,9 @@ ${formatarData(dados.data)}
 
 
 <td>
-${dados.origem || "Antigo"}
+${dados.origem || "Site"}
 </td>
+
 
 
 <td>
@@ -268,7 +269,6 @@ tabela.appendChild(linha);
 
 
 });
-
 
 
 }
