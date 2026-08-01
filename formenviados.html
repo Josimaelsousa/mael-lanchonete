@@ -24,7 +24,7 @@ h1 {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 30px auto;
   background: white;
   color: black;
@@ -64,6 +64,7 @@ th {
 
 <tr>
 <th>Data</th>
+<th>Origem</th>
 <th>Manhã</th>
 <th>Tarde</th>
 <th>Noite</th>
@@ -133,23 +134,17 @@ function formatarData(data){
         return "";
     }
 
-
-    // Já está no formato brasileiro
     if(data.includes("/")){
         return data;
     }
 
-
-    // Converte AAAA-MM-DD para DD/MM/AAAA
     const partes = data.split("-");
-
 
     if(partes.length === 3){
 
         return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
     }
-
 
     return data;
 
@@ -177,11 +172,10 @@ const querySnapshot = await getDocs(q);
 
 if(querySnapshot.empty){
 
-
 tabela.innerHTML =
 `
 <tr>
-<td colspan="4">
+<td colspan="5">
 Nenhum formulário enviado ainda.
 </td>
 </tr>
@@ -210,6 +204,11 @@ linha.innerHTML = `
 
 <td>
 ${formatarData(dados.data)}
+</td>
+
+
+<td>
+${dados.origem || "Antigo"}
 </td>
 
 
